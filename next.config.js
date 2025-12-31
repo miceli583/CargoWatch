@@ -9,14 +9,10 @@ const config = {
   reactStrictMode: true,
 
   /**
-   * If you are using `appDir` then you must comment the below `i18n` config out.
-   *
-   * @see https://github.com/vercel/next.js/issues/41980
+   * i18n configuration is not compatible with App Router.
+   * For internationalization in App Router, see:
+   * @see https://nextjs.org/docs/app/building-your-application/routing/internationalization
    */
-  i18n: {
-    locales: ["en"],
-    defaultLocale: "en",
-  },
 };
 
 export default config;

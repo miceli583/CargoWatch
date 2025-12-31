@@ -1,21 +1,29 @@
 /**
  * CargoWatch Middleware
  * Handles authentication and session management
+ *
+ * TEMPORARILY DISABLED: Supabase SSR is not compatible with Edge Runtime
+ * The @supabase/realtime-js library uses Node.js APIs (process.versions)
+ * which are not available in Next.js Edge Runtime.
+ *
+ * TODO: Re-enable when Supabase releases Edge Runtime compatible version
+ * or implement custom auth middleware without realtime features.
  */
 
-import { type NextRequest } from "next/server";
-import { updateSession } from "~/lib/supabase/middleware";
+import { type NextRequest, NextResponse } from "next/server";
+// import { updateSession } from "~/lib/supabase/middleware";
 
 export async function middleware(request: NextRequest) {
-  const { supabaseResponse, user } = await updateSession(request);
+  // Temporarily disabled - just pass through
+  return NextResponse.next();
 
-  // Add user information to headers for server components
-  if (user) {
-    supabaseResponse.headers.set("x-user-id", user.id);
-    supabaseResponse.headers.set("x-user-email", user.email ?? "");
-  }
-
-  return supabaseResponse;
+  // Original code (disabled):
+  // const { supabaseResponse, user } = await updateSession(request);
+  // if (user) {
+  //   supabaseResponse.headers.set("x-user-id", user.id);
+  //   supabaseResponse.headers.set("x-user-email", user.email ?? "");
+  // }
+  // return supabaseResponse;
 }
 
 export const config = {
