@@ -8,13 +8,13 @@
 import { useState, useMemo, useEffect, useRef } from "react";
 import mapboxgl from "mapbox-gl";
 import { MapPinIcon, FunnelIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import type { SelectIncident, SelectRegion } from "~/server/db/schema";
+import type { Incident, Region } from "~/server/db/schema";
 
 interface MapViewClientProps {
-  incidents: SelectIncident[];
-  regions: SelectRegion[];
-  topRegions: SelectRegion[];
-  recentIncidents: SelectIncident[];
+  incidents: Incident[];
+  regions: Region[];
+  topRegions: Region[];
+  recentIncidents: Incident[];
   stats: {
     totalIncidents: number;
   };
@@ -39,7 +39,7 @@ export function MapViewClient({
   const [selectedType, setSelectedType] = useState<string>("all");
   const [regionSearch, setRegionSearch] = useState("");
   const [showRegionDropdown, setShowRegionDropdown] = useState(false);
-  const [selectedIncident, setSelectedIncident] = useState<SelectIncident | null>(null);
+  const [selectedIncident, setSelectedIncident] = useState<Incident | null>(null);
   const [showRoutes, setShowRoutes] = useState(false);
 
   // Filter incidents based on selections
@@ -67,21 +67,23 @@ export function MapViewClient({
   const incidentsGeoJSON = useMemo(() => {
     return {
       type: "FeatureCollection" as const,
-      features: filteredIncidents.map((incident) => ({
-        type: "Feature" as const,
-        geometry: {
-          type: "Point" as const,
-          coordinates: [parseFloat(incident.longitude), parseFloat(incident.latitude)],
-        },
-        properties: {
-          id: incident.id,
-          title: incident.title,
-          region: incident.region,
-          severity: incident.severityLevel,
-          type: incident.incidentType,
-          description: incident.description,
-        },
-      })),
+      features: filteredIncidents
+        .filter((incident) => incident.longitude && incident.latitude)
+        .map((incident) => ({
+          type: "Feature" as const,
+          geometry: {
+            type: "Point" as const,
+            coordinates: [parseFloat(incident.longitude!), parseFloat(incident.latitude!)],
+          },
+          properties: {
+            id: incident.id,
+            title: incident.title,
+            region: incident.region,
+            severity: incident.severityLevel,
+            type: incident.incidentType,
+            description: incident.description,
+          },
+        })),
     };
   }, [filteredIncidents]);
 
@@ -426,7 +428,7 @@ export function MapViewClient({
   // Fly to region
   const flyToRegion = (regionName: string) => {
     const region = regions.find((r) => r.name === regionName);
-    if (region && map.current) {
+    if (region && region.longitude && region.latitude && map.current) {
       // Close popup when flying to region
       popup.current?.remove();
 
@@ -439,7 +441,8 @@ export function MapViewClient({
   };
 
   // Fly to incident
-  const flyToIncident = (incident: SelectIncident) => {
+  const flyToIncident = (incident: Incident) => {
+    if (!incident.latitude || !incident.longitude) return;
     const lat = parseFloat(incident.latitude);
     const lng = parseFloat(incident.longitude);
     if (!isNaN(lat) && !isNaN(lng) && map.current) {

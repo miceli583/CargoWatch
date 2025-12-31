@@ -88,9 +88,9 @@ export function generate128Incidents(demoUsers: any[], regions: any[]) {
 
   // Generate 128 incidents with good distribution
   for (let i = 0; i < 128; i++) {
-    const template = templates[i % templates.length];
-    const region = regions[Math.floor(Math.random() * regions.length)];
-    const user = demoUsers[i % demoUsers.length];
+    const template = templates[i % templates.length]!;
+    const region = regions[Math.floor(Math.random() * regions.length)]!;
+    const user = demoUsers[i % demoUsers.length]!;
 
     // Vary the timing (0-30 days ago)
     const hoursAgo = Math.floor(Math.random() * 720); // 30 days = 720 hours
@@ -116,11 +116,11 @@ export function generate128Incidents(demoUsers: any[], regions: any[]) {
     let description = template.descTemplate;
     description = description.replace("{location}", "secured facility");
     description = description.replace("{value}", `$${parseInt(loss).toLocaleString()}`);
-    description = description.replace("{timeOfDay}", ["overnight", "during rest break", "early morning hours", "late evening"][Math.floor(Math.random() * 4)]);
-    description = description.replace("{activity}", ["surveying trucks", "photographing facility", "approaching drivers", "inspecting trailers"][Math.floor(Math.random() * 4)]);
-    description = description.replace("{vehicle}", ["Dark SUV", "White van", "Black sedan", "Unmarked truck"][Math.floor(Math.random() * 4)]);
+    description = description.replace("{timeOfDay}", ["overnight", "during rest break", "early morning hours", "late evening"][Math.floor(Math.random() * 4)]!);
+    description = description.replace("{activity}", ["surveying trucks", "photographing facility", "approaching drivers", "inspecting trailers"][Math.floor(Math.random() * 4)]!);
+    description = description.replace("{vehicle}", ["Dark SUV", "White van", "Black sedan", "Unmarked truck"][Math.floor(Math.random() * 4)]!);
     description = description.replace("{cargo}", template.cargo || "general freight");
-    description = description.replace("{facility}", ["Staging Area", "Distribution Center", "Container Yard", "Truck Stop"][Math.floor(Math.random() * 4)]);
+    description = description.replace("{facility}", ["Staging Area", "Distribution Center", "Container Yard", "Truck Stop"][Math.floor(Math.random() * 4)]!);
 
     // Use actual region coordinates with small random offset (0.01-0.1 degrees, ~1-10km)
     const latOffset = (Math.random() - 0.5) * 0.1;
@@ -133,12 +133,12 @@ export function generate128Incidents(demoUsers: any[], regions: any[]) {
       incidentType: template.type,
       severityLevel: template.severity,
       cargoType: template.cargo,
-      status: statuses[Math.floor(Math.random() * statuses.length)],
+      status: statuses[Math.floor(Math.random() * statuses.length)]!,
       region: region!.name,
       specificLocation: getLocationForRegion(region!.name),
       latitude: latitude,
       longitude: longitude,
-      title: template.titleTemplate.replace("{facility}", ["Staging Area", "Distribution Center"][Math.floor(Math.random() * 2)]),
+      title: template.titleTemplate.replace("{facility}", ["Staging Area", "Distribution Center"][Math.floor(Math.random() * 2)]!),
       description: description,
       incidentDate: incidentDate,
       incidentTime: `${Math.floor(Math.random() * 24).toString().padStart(2, '0')}:${Math.floor(Math.random() * 60).toString().padStart(2, '0')}`,
@@ -168,5 +168,5 @@ function getLocationForRegion(region: string): string {
     "Staging Facility",
     "Intermodal Yard",
   ];
-  return locationTypes[Math.floor(Math.random() * locationTypes.length)];
+  return locationTypes[Math.floor(Math.random() * locationTypes.length)]!;
 }
