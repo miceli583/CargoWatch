@@ -11,15 +11,25 @@ import { AlertFeedClient } from "./alert-feed-client";
 export const dynamic = "force-dynamic";
 
 async function getIncidents() {
-  return db
-    .select()
-    .from(incidents)
-    .orderBy(desc(incidents.createdAt))
-    .limit(200);
+  try {
+    return await db
+      .select()
+      .from(incidents)
+      .orderBy(desc(incidents.createdAt))
+      .limit(200);
+  } catch (error) {
+    console.error("Database error fetching incidents:", error);
+    return [];
+  }
 }
 
 async function getRegions() {
-  return db.select().from(regions).orderBy(regions.name);
+  try {
+    return await db.select().from(regions).orderBy(regions.name);
+  } catch (error) {
+    console.error("Database error fetching regions:", error);
+    return [];
+  }
 }
 
 export default async function AlertsPage() {

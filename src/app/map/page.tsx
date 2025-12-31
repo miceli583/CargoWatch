@@ -11,38 +11,65 @@ import { MapViewClient } from "./map-view-client";
 export const dynamic = "force-dynamic";
 
 async function getIncidents() {
-  return db
-    .select()
-    .from(incidents)
-    .orderBy(desc(incidents.createdAt))
-    .limit(200);
+  try {
+    return await db
+      .select()
+      .from(incidents)
+      .orderBy(desc(incidents.createdAt))
+      .limit(200);
+  } catch (error) {
+    console.error("Database error fetching incidents:", error);
+    return [];
+  }
 }
 
 async function getRegions() {
-  return db.select().from(regions).orderBy(regions.name);
+  try {
+    return await db.select().from(regions).orderBy(regions.name);
+  } catch (error) {
+    console.error("Database error fetching regions:", error);
+    return [];
+  }
 }
 
 async function getTopRegions() {
-  return db
-    .select()
-    .from(regions)
-    .orderBy(desc(regions.incidentCount))
-    .limit(3);
+  try {
+    return await db
+      .select()
+      .from(regions)
+      .orderBy(desc(regions.incidentCount))
+      .limit(3);
+  } catch (error) {
+    console.error("Database error fetching top regions:", error);
+    return [];
+  }
 }
 
 async function getRecentIncidents() {
-  return db
-    .select()
-    .from(incidents)
-    .orderBy(desc(incidents.createdAt))
-    .limit(5);
+  try {
+    return await db
+      .select()
+      .from(incidents)
+      .orderBy(desc(incidents.createdAt))
+      .limit(5);
+  } catch (error) {
+    console.error("Database error fetching recent incidents:", error);
+    return [];
+  }
 }
 
 async function getStats() {
-  const [incidentCount] = await db.select({ count: sql<number>`count(*)` }).from(incidents);
-  return {
-    totalIncidents: incidentCount?.count ?? 0,
-  };
+  try {
+    const [incidentCount] = await db.select({ count: sql<number>`count(*)` }).from(incidents);
+    return {
+      totalIncidents: incidentCount?.count ?? 0,
+    };
+  } catch (error) {
+    console.error("Database error fetching stats:", error);
+    return {
+      totalIncidents: 0,
+    };
+  }
 }
 
 export default async function MapPage() {

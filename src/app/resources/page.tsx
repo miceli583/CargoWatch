@@ -16,7 +16,12 @@ import { asc } from "drizzle-orm";
 export const dynamic = "force-dynamic";
 
 async function getResources() {
-  return db.select().from(resources).orderBy(asc(resources.displayOrder));
+  try {
+    return await db.select().from(resources).orderBy(asc(resources.displayOrder));
+  } catch (error) {
+    console.error("Database error fetching resources:", error);
+    return [];
+  }
 }
 
 function getCategoryIcon(category: string) {
