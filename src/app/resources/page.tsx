@@ -253,8 +253,55 @@ export default function ResourcesPage() {
         </div>
       </div>
 
-      {/* Industry Partners */}
+      {/* Quick Security Tips */}
       <div className="bg-brand-navy py-12">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="rounded-lg border border-gray-700 bg-brand-navy-light p-8">
+            <h3 className="text-xl font-semibold text-white">Quick Security Tips</h3>
+            <div className="mt-6 grid gap-6 md:grid-cols-2">
+              <div>
+                <h4 className="font-semibold text-brand-red">Before You Park</h4>
+                <ul className="mt-3 space-y-2 text-sm text-gray-300">
+                  <li>• Check CargoWatch alerts for recent incidents in the area</li>
+                  <li>• Choose well-lit, high-traffic truck stops</li>
+                  <li>• Park with trailer doors against a barrier when possible</li>
+                  <li>• Note security cameras and patrol presence</li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-semibold text-brand-red">During Your Stop</h4>
+                <ul className="mt-3 space-y-2 text-sm text-gray-300">
+                  <li>• Use high-quality locks and seals on trailer doors</li>
+                  <li>• Enable GPS tracking and tamper alerts</li>
+                  <li>• Check trailer every few hours if possible</li>
+                  <li>• Report suspicious activity immediately via CargoWatch</li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-semibold text-brand-red">High-Value Loads</h4>
+                <ul className="mt-3 space-y-2 text-sm text-gray-300">
+                  <li>• Never discuss cargo contents in public</li>
+                  <li>• Use team drivers for continuous movement</li>
+                  <li>• Install covert tracking in addition to standard GPS</li>
+                  <li>• Coordinate with law enforcement for high-risk routes</li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-semibold text-brand-red">If You're Targeted</h4>
+                <ul className="mt-3 space-y-2 text-sm text-gray-300">
+                  <li>• Call 911 immediately if threat is imminent</li>
+                  <li>• Report via CargoWatch to alert nearby drivers</li>
+                  <li>• Don't confront suspects - your safety is priority #1</li>
+                  <li>• Take photos/video from a safe distance if possible</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Industry Partners */}
+      <div className="bg-brand-navy-dark py-12">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <h2 className="text-2xl font-bold text-white">Industry Partners</h2>
           <p className="mt-2 text-gray-400">
@@ -320,6 +367,44 @@ export default function ResourcesPage() {
                 tapa-global.org
                 <ArrowTopRightOnSquareIcon className="h-3 w-3" />
               </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Emergency Contacts */}
+      <div className="border-t border-gray-700 bg-brand-navy py-12">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <h2 className="text-center text-2xl font-bold text-white">
+            Emergency Contacts
+          </h2>
+          <p className="mt-2 text-center text-gray-400">
+            For immediate threats, always call 911 first
+          </p>
+
+          <div className="mt-8 grid gap-6 md:grid-cols-3">
+            <div className="rounded-lg border border-gray-700 bg-brand-navy-light p-6 text-center">
+              <div className="text-2xl font-bold text-brand-red">911</div>
+              <div className="mt-2 text-white">Emergency Services</div>
+              <p className="mt-2 text-sm text-gray-400">
+                Immediate threats or crimes in progress
+              </p>
+            </div>
+
+            <div className="rounded-lg border border-gray-700 bg-brand-navy-light p-6 text-center">
+              <div className="text-2xl font-bold text-brand-red">1-800-CARGO-TIP</div>
+              <div className="mt-2 text-white">CargoNet Hotline</div>
+              <p className="mt-2 text-sm text-gray-400">
+                Report cargo theft 24/7
+              </p>
+            </div>
+
+            <div className="rounded-lg border border-gray-700 bg-brand-navy-light p-6 text-center">
+              <div className="text-2xl font-bold text-brand-red">1-800-CALL-FBI</div>
+              <div className="mt-2 text-white">FBI Cargo Theft</div>
+              <p className="mt-2 text-sm text-gray-400">
+                Report organized cargo crime
+              </p>
             </div>
           </div>
         </div>

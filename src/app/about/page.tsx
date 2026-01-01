@@ -170,52 +170,69 @@ export default function AboutPage() {
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="text-center">
             <ChartBarIcon className="mx-auto h-12 w-12 text-brand-red" />
-            <h2 className="mt-6 text-3xl font-bold text-white">Massive Market Opportunity</h2>
+            <h2 className="mt-6 text-3xl font-bold text-white">Market Opportunity</h2>
           </div>
 
-          <div className="mt-12 grid gap-8 md:grid-cols-3">
+          <div className="mt-12 grid gap-8 md:grid-cols-4">
             <div className="text-center">
-              <div className="text-3xl font-bold text-brand-red">3.5M+</div>
-              <div className="mt-2 text-white">Commercial Truck Drivers</div>
+              <div className="text-3xl font-bold text-brand-red">$1.38T</div>
+              <div className="mt-2 text-white">Total US Freight Market</div>
               <p className="mt-2 text-sm text-gray-400">
-                Potential users across the US freight industry
+                2025 projection
               </p>
             </div>
 
             <div className="text-center">
-              <div className="text-3xl font-bold text-brand-red">15,000+</div>
-              <div className="mt-2 text-white">Law Enforcement Agencies</div>
+              <div className="text-3xl font-bold text-brand-red">$906B</div>
+              <div className="mt-2 text-white">Trucking Revenue</div>
               <p className="mt-2 text-sm text-gray-400">
-                Departments nationwide handling cargo theft
+                Annual trucking industry revenue
               </p>
             </div>
 
             <div className="text-center">
-              <div className="text-3xl font-bold text-brand-red">$900B+</div>
-              <div className="mt-2 text-white">Annual Freight Value</div>
+              <div className="text-3xl font-bold text-brand-red">500K</div>
+              <div className="mt-2 text-white">Motor Carriers in US</div>
               <p className="mt-2 text-sm text-gray-400">
-                Total cargo moving through US supply chain
+                Active motor carrier companies
+              </p>
+            </div>
+
+            <div className="text-center">
+              <div className="text-3xl font-bold text-brand-red">$77.6B</div>
+              <div className="mt-2 text-white">Rail Freight Revenue</div>
+              <p className="mt-2 text-sm text-gray-400">
+                Annual rail freight revenue
               </p>
             </div>
           </div>
 
           <div className="mt-12 rounded-lg border border-gray-700 bg-brand-navy p-8">
-            <h3 className="text-xl font-semibold text-white">Priority Regions (Phase 1)</h3>
+            <h3 className="text-xl font-semibold text-white">Priority Regions</h3>
             <div className="mt-6 grid gap-6 md:grid-cols-3">
-              <div className="rounded-lg border border-gray-700 bg-brand-navy-light p-4">
-                <div className="font-semibold text-white">Memphis, TN</div>
-                <div className="mt-1 text-sm text-gray-400">I-40/I-55 Freight Hub</div>
-                <div className="mt-2 text-xs text-severity-high">247 incidents in 2024</div>
+              <div className="rounded-lg border border-gray-700 bg-brand-navy-light p-6">
+                <div className="text-lg font-semibold text-white">Memphis, TN</div>
+                <div className="mt-2 text-brand-red font-semibold">#1 in Nation</div>
+                <div className="mt-3 text-sm text-gray-400">
+                  Top logistics and supply chain concentration with 293,000 workers employed in the sector
+                </div>
+                <div className="mt-2 text-xs text-gray-500">Primary nexus region</div>
               </div>
-              <div className="rounded-lg border border-gray-700 bg-brand-navy-light p-4">
-                <div className="font-semibold text-white">Los Angeles, CA</div>
-                <div className="mt-1 text-sm text-gray-400">Port Complex & Distribution</div>
-                <div className="mt-2 text-xs text-severity-critical">518 incidents in 2024</div>
+              <div className="rounded-lg border border-gray-700 bg-brand-navy-light p-6">
+                <div className="text-lg font-semibold text-white">Los Angeles, CA</div>
+                <div className="mt-2 text-brand-red font-semibold">902,400</div>
+                <div className="mt-3 text-sm text-gray-400">
+                  Workers employed in Southern California trade and logistics sector
+                </div>
+                <div className="mt-2 text-xs text-gray-500">Major port operations</div>
               </div>
-              <div className="rounded-lg border border-gray-700 bg-brand-navy-light p-4">
-                <div className="font-semibold text-white">Dallas, TX</div>
-                <div className="mt-1 text-sm text-gray-400">Central Distribution Hub</div>
-                <div className="mt-2 text-xs text-severity-high">189 incidents in 2024</div>
+              <div className="rounded-lg border border-gray-700 bg-brand-navy-light p-6">
+                <div className="text-lg font-semibold text-white">Dallas, TX</div>
+                <div className="mt-2 text-brand-red font-semibold">Top 3</div>
+                <div className="mt-3 text-sm text-gray-400">
+                  Major intermodal site for US, ranking among top cargo handling cities for air and rail
+                </div>
+                <div className="mt-2 text-xs text-gray-500">Critical junction point</div>
               </div>
             </div>
           </div>
@@ -232,36 +249,86 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <div className="mt-12 grid gap-6 md:grid-cols-4">
-            <div className="rounded-lg border border-gray-700 bg-brand-navy-light p-6 text-center">
-              <TruckIcon className="mx-auto h-10 w-10 text-brand-red" />
-              <div className="mt-4 font-semibold text-white">Truck Drivers</div>
-              <p className="mt-2 text-sm text-gray-400">
-                Report incidents, receive alerts, stay informed about threats
+          <div className="mt-12 grid gap-4 md:grid-cols-4">
+            <div className="rounded-lg border border-gray-700 bg-brand-navy-light px-6 py-4 text-center">
+              <div className="font-semibold text-white">Motor Carriers</div>
+            </div>
+
+            <div className="rounded-lg border border-gray-700 bg-brand-navy-light px-6 py-4 text-center">
+              <div className="font-semibold text-white">Rail Freight Operators</div>
+            </div>
+
+            <div className="rounded-lg border border-gray-700 bg-brand-navy-light px-6 py-4 text-center">
+              <div className="font-semibold text-white">Warehouses & Distribution Centers</div>
+            </div>
+
+            <div className="rounded-lg border border-gray-700 bg-brand-navy-light px-6 py-4 text-center">
+              <div className="font-semibold text-white">Port Authorities</div>
+            </div>
+
+            <div className="rounded-lg border border-gray-700 bg-brand-navy-light px-6 py-4 text-center">
+              <div className="font-semibold text-white">Law Enforcement Agencies</div>
+            </div>
+
+            <div className="rounded-lg border border-gray-700 bg-brand-navy-light px-6 py-4 text-center">
+              <div className="font-semibold text-white">Insurance Companies</div>
+            </div>
+
+            <div className="rounded-lg border border-gray-700 bg-brand-navy-light px-6 py-4 text-center">
+              <div className="font-semibold text-white">Freight Forwarders</div>
+            </div>
+
+            <div className="rounded-lg border border-gray-700 bg-brand-navy-light px-6 py-4 text-center">
+              <div className="font-semibold text-white">Shippers & Receivers</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Revenue Model */}
+      <div className="bg-brand-navy-dark py-16">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold text-white">Revenue Model</h2>
+          </div>
+
+          <div className="mt-8 rounded-lg border border-gray-700 bg-brand-navy p-6 text-center">
+            <div className="text-lg font-semibold text-white">
+              FREE for all users.{" "}
+              <span className="text-gray-400">
+                Cargo Watch is a community-driven platform. Users become our customer base, and we monetize through strategic partnerships.
+              </span>
+            </div>
+          </div>
+
+          <div className="mt-10 grid gap-8 md:grid-cols-3">
+            <div className="rounded-lg border border-gray-700 bg-brand-navy-light p-6">
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-brand-red/10">
+                <ChartBarIcon className="h-6 w-6 text-brand-red" />
+              </div>
+              <h3 className="text-lg font-semibold text-white">Advertising Revenue</h3>
+              <p className="mt-3 text-sm text-gray-400">
+                Security products, GPS tracking, insurance, and safety tools
               </p>
             </div>
 
-            <div className="rounded-lg border border-gray-700 bg-brand-navy-light p-6 text-center">
-              <BuildingOfficeIcon className="mx-auto h-10 w-10 text-brand-red" />
-              <div className="mt-4 font-semibold text-white">Carriers & Fleets</div>
-              <p className="mt-2 text-sm text-gray-400">
-                Protect assets, monitor routes, reduce insurance costs
+            <div className="rounded-lg border border-gray-700 bg-brand-navy-light p-6">
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-brand-red/10">
+                <ShieldCheckIcon className="h-6 w-6 text-brand-red" />
+              </div>
+              <h3 className="text-lg font-semibold text-white">Law Enforcement Grants</h3>
+              <p className="mt-3 text-sm text-gray-400">
+                Local, state, and federal funding for crime prevention
               </p>
             </div>
 
-            <div className="rounded-lg border border-gray-700 bg-brand-navy-light p-6 text-center">
-              <ShieldCheckIcon className="mx-auto h-10 w-10 text-brand-red" />
-              <div className="mt-4 font-semibold text-white">Law Enforcement</div>
-              <p className="mt-2 text-sm text-gray-400">
-                Receive real-time reports, coordinate responses, track patterns
-              </p>
-            </div>
-
-            <div className="rounded-lg border border-gray-700 bg-brand-navy-light p-6 text-center">
-              <UserGroupIcon className="mx-auto h-10 w-10 text-brand-red" />
-              <div className="mt-4 font-semibold text-white">Security Personnel</div>
-              <p className="mt-2 text-sm text-gray-400">
-                Monitor facilities, share intelligence, prevent losses
+            <div className="rounded-lg border border-gray-700 bg-brand-navy-light p-6">
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-brand-red/10">
+                <GlobeAmericasIcon className="h-6 w-6 text-brand-red" />
+              </div>
+              <h3 className="text-lg font-semibold text-white">Data Services</h3>
+              <p className="mt-3 text-sm text-gray-400">
+                Insights for CargoNet, Overhaul, FCIS, and insurance companies
               </p>
             </div>
           </div>
@@ -269,7 +336,7 @@ export default function AboutPage() {
       </div>
 
       {/* CTA */}
-      <div className="border-t border-gray-700 gradient-navy-reverse py-16">
+      <div className="border-t border-gray-700 bg-brand-navy py-16">
         <div className="mx-auto max-w-4xl px-6 text-center lg:px-8">
           <h2 className="text-3xl font-bold text-white">Join the Network</h2>
           <p className="mt-4 text-xl text-gray-300">
