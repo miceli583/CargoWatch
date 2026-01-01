@@ -2,25 +2,52 @@
 
 /**
  * CargoWatch Navigation Component
- * Main navigation bar matching wireframe design
+ * Main navigation bar with authentication state
  */
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ShieldCheckIcon } from "@heroicons/react/24/solid";
+import { useEffect, useState } from "react";
+import { ShieldCheckIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 import { cn } from "~/lib/utils";
+import { createClient } from "~/lib/supabase/client";
 
-const navigation = [
+const publicNavigation = [
   { name: "Home", href: "/" },
-  { name: "Alert Feed", href: "/alerts" },
-  { name: "Map View", href: "/map" },
-  { name: "Report Incident", href: "/report" },
+  { name: "Resources", href: "/resources" },
+  { name: "About", href: "/about" },
+];
+
+const protectedNavigation = [
+  { name: "Home", href: "/" },
   { name: "Resources", href: "/resources" },
   { name: "About", href: "/about" },
 ];
 
 export function Navigation() {
   const pathname = usePathname();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const supabase = createClient();
+
+  useEffect(() => {
+    // Check initial session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setIsAuthenticated(!!session);
+      setLoading(false);
+    });
+
+    // Listen for auth changes
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setIsAuthenticated(!!session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, [supabase.auth]);
+
+  const navigation = isAuthenticated ? protectedNavigation : publicNavigation;
 
   return (
     <nav className="border-b border-gray-800 bg-brand-navy-dark">
@@ -46,9 +73,8 @@ export function Navigation() {
           {/* Desktop Navigation */}
           <div className="hidden md:block">
             <div className="flex items-center space-x-1">
-              {navigation.map((item) => {
+              {!loading && navigation.map((item) => {
                 const isActive = pathname === item.href;
-                const isReport = item.name === "Report Incident";
 
                 return (
                   <Link
@@ -56,17 +82,44 @@ export function Navigation() {
                     href={item.href}
                     className={cn(
                       "rounded-md px-4 py-2 text-sm font-medium transition-colors",
-                      isReport
-                        ? "bg-brand-red text-white hover:bg-brand-red-hover"
-                        : isActive
-                          ? "bg-brand-navy-light text-white"
-                          : "text-gray-300 hover:bg-brand-navy-light hover:text-white"
+                      isActive
+                        ? "bg-brand-navy-light text-white"
+                        : "text-gray-300 hover:bg-brand-navy-light hover:text-white"
                     )}
                   >
                     {item.name}
                   </Link>
                 );
               })}
+
+              {/* Auth Links */}
+              {!loading && (
+                <>
+                  {isAuthenticated ? (
+                    <Link
+                      href="/dashboard"
+                      className="ml-2 rounded-md bg-brand-red px-4 py-2 text-sm font-medium text-white hover:bg-brand-red-hover"
+                    >
+                      Go to Dashboard
+                    </Link>
+                  ) : (
+                    <>
+                      <Link
+                        href="/login"
+                        className="ml-2 rounded-md px-4 py-2 text-sm font-medium text-gray-300 hover:bg-brand-navy-light hover:text-white"
+                      >
+                        Login
+                      </Link>
+                      <Link
+                        href="/signup"
+                        className="rounded-md bg-brand-red px-4 py-2 text-sm font-medium text-white hover:bg-brand-red-hover"
+                      >
+                        Sign Up
+                      </Link>
+                    </>
+                  )}
+                </>
+              )}
             </div>
           </div>
 

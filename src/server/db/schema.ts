@@ -46,6 +46,34 @@ export const users = createTable(
     role: varchar("role", { length: 50 }).notNull().default("member"),
     // Roles: member, driver, security, law_enforcement, admin
 
+    // Approval Workflow
+    approvalStatus: varchar("approval_status", { length: 50 })
+      .notNull()
+      .default("pending"),
+    // Values: "pending", "approved", "rejected"
+
+    approvedBy: uuid("approved_by"),
+    approvedAt: timestamp("approved_at", { withTimezone: true }),
+    rejectionReason: text("rejection_reason"),
+
+    // Email Verification (separate from approval)
+    emailVerified: boolean("email_verified").notNull().default(false),
+    emailVerifiedAt: timestamp("email_verified_at", { withTimezone: true }),
+
+    // Account Status
+    accountStatus: varchar("account_status", { length: 50 })
+      .notNull()
+      .default("active"),
+    // Values: "active", "suspended", "deactivated"
+
+    // Terms & Professional Info
+    termsAcceptedAt: timestamp("terms_accepted_at", { withTimezone: true }),
+    companyRole: varchar("company_role", { length: 100 }),
+    mcNumber: varchar("mc_number", { length: 50 }), // Motor Carrier Number
+    dotNumber: varchar("dot_number", { length: 50 }), // DOT Number
+    badgeNumber: varchar("badge_number", { length: 50 }), // Law enforcement
+    department: varchar("department", { length: 100 }), // Law enforcement
+
     // Profile Settings
     avatarUrl: text("avatar_url"),
     bio: text("bio"),
@@ -68,6 +96,8 @@ export const users = createTable(
     emailIdx: index("user_email_idx").on(table.email),
     authIdIdx: index("user_auth_id_idx").on(table.authId),
     roleIdx: index("user_role_idx").on(table.role),
+    approvalStatusIdx: index("user_approval_status_idx").on(table.approvalStatus),
+    accountStatusIdx: index("user_account_status_idx").on(table.accountStatus),
   })
 );
 

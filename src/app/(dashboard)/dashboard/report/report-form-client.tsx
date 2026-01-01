@@ -90,9 +90,6 @@ export function ReportFormClient({ regions }: ReportFormClientProps) {
         incidentTime: formData.incidentTime || undefined,
         cargoType: formData.cargoType || undefined,
         estimatedLoss: formData.estimatedLoss ? parseFloat(formData.estimatedLoss) : undefined,
-        reporterName: formData.reporterName,
-        reporterCompany: formData.reporterCompany || undefined,
-        reporterContact: formData.reporterContact,
         latitude: latitude.toString(),
         longitude: longitude.toString(),
       });

@@ -1,5 +1,9 @@
 import { z } from "zod";
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import {
+  createTRPCRouter,
+  publicProcedure,
+  approvedProcedure,
+} from "~/server/api/trpc";
 import { incidents } from "~/server/db/schema";
 import { desc, eq, sql } from "drizzle-orm";
 
@@ -57,8 +61,9 @@ export const incidentsRouter = createTRPCRouter({
 
   /**
    * Create a new incident report
+   * Requires approved user - reporter info comes from authenticated session
    */
-  create: publicProcedure
+  create: approvedProcedure
     .input(
       z.object({
         // Required fields
@@ -69,39 +74,24 @@ export const incidentsRouter = createTRPCRouter({
         region: z.string().min(1, "Region is required"),
         specificLocation: z.string().min(1, "Specific location is required"),
         incidentDate: z.date(),
-        reporterName: z.string().min(1, "Your name is required"),
-        reporterContact: z.string().min(1, "Contact information is required"),
 
         // Optional fields
         cargoType: z.string().optional(),
         incidentTime: z.string().optional(),
         estimatedLoss: z.number().optional(),
-        reporterCompany: z.string().optional(),
         latitude: z.string().optional(),
         longitude: z.string().optional(),
-
-        // Reporter ID - for now we'll use a demo user, later this will come from auth
-        reporterId: z.string().uuid().optional(),
       })
     )
     .mutation(async ({ ctx, input }) => {
-      // For now, use the first demo user if no reporterId is provided
-      // In production, this would come from the authenticated session
-      let reporterId = input.reporterId;
-
-      if (!reporterId) {
-        const demoUser = await ctx.db.query.users.findFirst();
-        if (!demoUser) {
-          throw new Error("No users found in database. Please run seed script.");
-        }
-        reporterId = demoUser.id;
-      }
-
-      // Create the incident
+      // Use authenticated user's data - no longer accepting reporter info from client
       const [newIncident] = await ctx.db
         .insert(incidents)
         .values({
-          reporterId,
+          reporterId: ctx.user.id,
+          reporterName: ctx.user.fullName,
+          reporterCompany: ctx.user.company ?? "",
+          reporterContact: ctx.user.email,
           incidentType: input.incidentType,
           severityLevel: input.severityLevel,
           title: input.title,
@@ -111,10 +101,7 @@ export const incidentsRouter = createTRPCRouter({
           incidentDate: input.incidentDate,
           incidentTime: input.incidentTime,
           cargoType: input.cargoType,
-          estimatedLoss: input.estimatedLoss ? input.estimatedLoss.toString() : null,
-          reporterName: input.reporterName,
-          reporterCompany: input.reporterCompany,
-          reporterContact: input.reporterContact,
+          estimatedLoss: input.estimatedLoss?.toString() ?? null,
           latitude: input.latitude,
           longitude: input.longitude,
           status: "active",

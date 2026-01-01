@@ -6,11 +6,14 @@
  * TL;DR - This is where all the tRPC server stuff is created and plugged in. The pieces you will
  * need to use are documented accordingly near the end.
  */
-import { initTRPC } from "@trpc/server";
+import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
 
 import { db } from "~/server/db";
+import { createClient } from "~/lib/supabase/server";
+import { users } from "~/server/db/schema";
+import { eq } from "drizzle-orm";
 
 /**
  * 1. CONTEXT
@@ -34,10 +37,26 @@ interface CreateContextOptions {
  *
  * @see https://create.t3.gg/en/usage/trpc#-serverapitrpcts
  */
-const createInnerTRPCContext = (opts: CreateContextOptions) => {
+const createInnerTRPCContext = async (opts: CreateContextOptions) => {
+  // Get Supabase user
+  const supabase = await createClient();
+  const {
+    data: { user: authUser },
+  } = await supabase.auth.getUser();
+
+  // Fetch database user if authenticated
+  let user = null;
+  if (authUser) {
+    user = await db.query.users.findFirst({
+      where: eq(users.authId, authUser.id),
+    });
+  }
+
   return {
     db,
     headers: opts.headers,
+    user, // Database user object with approval info
+    authUser, // Supabase auth user
   };
 };
 
@@ -47,8 +66,8 @@ const createInnerTRPCContext = (opts: CreateContextOptions) => {
  *
  * @see https://trpc.io/docs/context
  */
-export const createTRPCContext = (opts: CreateContextOptions) => {
-  return createInnerTRPCContext(opts);
+export const createTRPCContext = async (opts: CreateContextOptions) => {
+  return await createInnerTRPCContext(opts);
 };
 
 /**
@@ -125,3 +144,68 @@ const timingMiddleware = t.middleware(async ({ next, path }) => {
  * are logged in.
  */
 export const publicProcedure = t.procedure.use(timingMiddleware);
+
+/**
+ * Protected (authenticated) procedure
+ *
+ * Requires user to be logged in. Use this for features that require authentication
+ * but not necessarily approval (e.g., viewing profile, checking approval status).
+ */
+const protectedProcedure = t.procedure
+  .use(timingMiddleware)
+  .use(async ({ ctx, next }) => {
+    if (!ctx.user) {
+      throw new TRPCError({ code: "UNAUTHORIZED", message: "Not authenticated" });
+    }
+
+    return next({
+      ctx: {
+        ...ctx,
+        user: ctx.user, // Now TypeScript knows user is defined
+      },
+    });
+  });
+
+/**
+ * Approved procedure
+ *
+ * Requires user to be authenticated AND approved by admin.
+ * Use this for protected features like creating incidents, commenting, etc.
+ */
+const approvedProcedure = protectedProcedure.use(async ({ ctx, next }) => {
+  if (ctx.user.approvalStatus !== "approved") {
+    throw new TRPCError({
+      code: "FORBIDDEN",
+      message: "Account pending approval",
+    });
+  }
+
+  if (ctx.user.accountStatus !== "active") {
+    throw new TRPCError({
+      code: "FORBIDDEN",
+      message: "Account is not active",
+    });
+  }
+
+  return next({ ctx });
+});
+
+/**
+ * Admin procedure
+ *
+ * Requires user to be authenticated, approved, AND have admin role.
+ * Use this for admin-only features like approving users, managing content, etc.
+ */
+const adminProcedure = approvedProcedure.use(async ({ ctx, next }) => {
+  if (ctx.user.role !== "admin") {
+    throw new TRPCError({
+      code: "FORBIDDEN",
+      message: "Admin access required",
+    });
+  }
+
+  return next({ ctx });
+});
+
+// Export the procedures
+export { protectedProcedure, approvedProcedure, adminProcedure };
