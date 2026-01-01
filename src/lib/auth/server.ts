@@ -51,11 +51,6 @@ export async function requireAuth(): Promise<User> {
 export async function requireApprovedUser(): Promise<User> {
   const user = await requireAuth();
 
-  // Check if user has not verified their email
-  if (!user.emailVerified) {
-    redirect("/verify-email");
-  }
-
   // Check if user is pending approval
   if (user.approvalStatus === "pending") {
     redirect("/pending-approval");
@@ -64,11 +59,6 @@ export async function requireApprovedUser(): Promise<User> {
   // Check if user was rejected
   if (user.approvalStatus === "rejected") {
     redirect("/pending-approval"); // Shows rejection reason
-  }
-
-  // Check if account is suspended or deactivated
-  if (user.accountStatus !== "active") {
-    redirect("/account-suspended");
   }
 
   return user;

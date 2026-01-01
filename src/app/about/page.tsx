@@ -11,6 +11,8 @@ import {
   TruckIcon,
   BuildingOfficeIcon,
 } from "@heroicons/react/24/outline";
+import { AuthCTAButtons } from "../_components/auth-cta-buttons";
+import { AuthCTAHeading } from "../_components/auth-cta-heading";
 
 export default function AboutPage() {
   return (
@@ -338,23 +340,12 @@ export default function AboutPage() {
       {/* CTA */}
       <div className="border-t border-gray-700 bg-brand-navy py-16">
         <div className="mx-auto max-w-4xl px-6 text-center lg:px-8">
-          <h2 className="text-3xl font-bold text-white">Join the Network</h2>
+          <AuthCTAHeading />
           <p className="mt-4 text-xl text-gray-300">
             Together, we can protect America's freight network and stop organized cargo theft
           </p>
-          <div className="mt-8 flex justify-center gap-4">
-            <a
-              href="/report"
-              className="rounded-md bg-brand-red px-8 py-4 text-lg font-semibold text-white hover:bg-brand-red-hover"
-            >
-              Report an Incident
-            </a>
-            <a
-              href="/alerts"
-              className="rounded-md border border-gray-600 px-8 py-4 text-lg font-semibold text-white hover:bg-brand-navy"
-            >
-              View Alert Feed
-            </a>
+          <div className="mt-8">
+            <AuthCTAButtons variant="cta" />
           </div>
           <p className="mt-8 text-gray-400">
             CargoWatch is 100% free for all transportation stakeholders

@@ -62,12 +62,6 @@ function LoginForm() {
         return;
       }
 
-      // Check email verification
-      if (!user.emailVerified) {
-        router.push("/verify-email");
-        return;
-      }
-
       // Check approval status
       if (user.approvalStatus === "pending") {
         router.push("/pending-approval");
@@ -76,13 +70,6 @@ function LoginForm() {
 
       if (user.approvalStatus === "rejected") {
         router.push("/pending-approval"); // Shows rejection reason
-        return;
-      }
-
-      if (user.accountStatus !== "active") {
-        setError("Your account has been suspended. Please contact support.");
-        await supabase.auth.signOut();
-        setLoading(false);
         return;
       }
 

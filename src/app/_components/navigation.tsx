@@ -50,7 +50,7 @@ export function Navigation() {
   const navigation = isAuthenticated ? protectedNavigation : publicNavigation;
 
   return (
-    <nav className="border-b border-gray-800 bg-brand-navy-dark">
+    <nav className="sticky top-0 z-50 border-b border-gray-800 bg-brand-navy-dark">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}

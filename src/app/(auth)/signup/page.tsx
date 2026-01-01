@@ -107,6 +107,10 @@ export default function SignupPage() {
 
     try {
       // 1. Create user in Supabase Auth
+      // Note: The redirect URL must be whitelisted in Supabase Dashboard:
+      // Authentication > URL Configuration > Redirect URLs
+      // Add: http://localhost:3000/auth/callback (for development)
+      // Add: https://yourdomain.com/auth/callback (for production)
       const { data: authData, error: signUpError } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
@@ -161,8 +165,8 @@ export default function SignupPage() {
         return;
       }
 
-      // Success! Redirect to verification page
-      router.push("/verify-email");
+      // Success! Redirect to pending approval page
+      router.push("/pending-approval");
     } catch (err) {
       setError("An unexpected error occurred. Please try again.");
       setLoading(false);

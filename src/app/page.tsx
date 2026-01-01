@@ -3,7 +3,6 @@
  * Landing page with hero, stats, and regional overview
  */
 
-import Link from "next/link";
 import {
   ShieldCheckIcon,
   BellAlertIcon,
@@ -12,6 +11,7 @@ import {
 import { db } from "~/server/db";
 import { incidents, users, regions } from "~/server/db/schema";
 import { sql } from "drizzle-orm";
+import { AuthCTAButtons } from "./_components/auth-cta-buttons";
 
 export const dynamic = "force-dynamic";
 
@@ -64,21 +64,8 @@ export default async function HomePage() {
             </p>
 
             {/* CTA Buttons */}
-            <div className="mt-10 flex items-center justify-center gap-x-6">
-              <Link
-                href="/report"
-                className="rounded-md bg-brand-red px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-brand-red-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
-              >
-                <BellAlertIcon className="mr-2 inline-block h-5 w-5" />
-                Report an Incident
-              </Link>
-              <Link
-                href="/alerts"
-                className="rounded-md border border-gray-600 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-brand-navy-light"
-              >
-                <ShieldCheckIcon className="mr-2 inline-block h-5 w-5" />
-                View Alert Feed
-              </Link>
+            <div className="mt-10">
+              <AuthCTAButtons variant="hero" />
             </div>
           </div>
         </div>
